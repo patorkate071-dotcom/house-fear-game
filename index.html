@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The House That Feeds on Fear</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#120d14;--panel:#1d151f;--bone:#e3d8c0;--dust:#9a8f9f;--lamp:#e0a948;--red:#b02a3a;--wood:#4a3320;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0;background:var(--ink);height:100%}
+body{color:var(--bone);font:18px/1.45 "IM Fell English",Georgia,serif;background-image:repeating-linear-gradient(90deg,transparent 0 78px,rgba(255,255,255,.035) 78px 80px);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--ink);z-index:10}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;transition:box-shadow 1s;z-index:4}
+body.mid::after{box-shadow:inset 0 0 90px rgba(0,0,0,.7)}
+body.high::after{box-shadow:inset 0 0 130px rgba(176,42,58,.6);animation:pulse 1.2s infinite}
+@keyframes pulse{50%{box-shadow:inset 0 0 80px rgba(176,42,58,.3)}}
+#app{max-width:480px;margin:0 auto;padding:6px 12px 20px;touch-action:none}
+.zig{height:12px;background:linear-gradient(135deg,var(--red) 25%,transparent 25%) -6px 0/12px 12px,linear-gradient(225deg,var(--red) 25%,transparent 25%) -6px 0/12px 12px,linear-gradient(315deg,#b8862f 25%,transparent 25%) 0 0/12px 12px,linear-gradient(45deg,#b8862f 25%,transparent 25%) 0 0/12px 12px #120d14}
+.hud{display:flex;gap:10px;align-items:center;padding:8px 0;font-size:16px}
+.bar{flex:1;height:12px;background:repeating-linear-gradient(45deg,#1d151f 0 6px,#251a26 6px 12px);border:1px solid var(--wood)}
+.bar i{display:block;height:100%;width:0;background:var(--lamp);transition:background .5s}
+body.mid .bar i{background:#c9622e}body.high .bar i{background:var(--red)}
+.stage{position:relative;width:fit-content;margin:0 auto;border:3px solid var(--wood);outline:1px solid #7a5a2f;outline-offset:2px}
+canvas{display:block;height:min(62vh,480px);aspect-ratio:352/480;touch-action:none;background:#000}
+#msg{position:absolute;left:0;right:0;top:8px;text-align:center;opacity:0;transition:opacity .4s;pointer-events:none;color:var(--lamp);text-shadow:0 0 8px #000,0 0 3px #000}
+.ov{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 115%,rgba(130,12,28,.6),rgba(10,6,12,.95) 62%);display:flex;flex-direction:column;justify-content:center;padding:18px;text-align:center}
+.ov h1{font-size:1.9rem;line-height:1.1;margin:0;font-weight:400;color:#f0e2bd;text-shadow:0 0 16px rgba(224,169,72,.4)}
+.ov .sub{color:var(--lamp);font-style:italic;margin:4px 0 12px}
+.ov p{margin:6px 0}
+button{font:inherit;color:var(--bone);background:linear-gradient(#2b1d23,#1d151f);border:1px solid var(--wood);border-left:4px solid var(--red);padding:10px 16px;cursor:pointer}
+button:hover:not(:disabled){background:linear-gradient(#3a262a,#2a1c22)}
+button:focus-visible{outline:2px solid var(--lamp);outline-offset:2px}
+button:disabled{opacity:.4}
+#hide{display:block;width:100%;margin-top:10px;text-align:center}
+.hint{color:var(--dust);font-size:14px;text-align:center;margin:6px 0 0}
+.stu{display:grid;gap:6px;margin:8px 0}.stu button{text-align:left;padding:7px 12px;border-left-color:var(--wood)}.stu button.on{border-left-color:var(--red);background:#3a1a22}.stu small{display:block;color:var(--dust);font-size:13px}
+.stage{box-shadow:0 0 34px rgba(176,42,58,.4);animation:cf 3s infinite}
+@keyframes cf{50%{box-shadow:0 0 50px rgba(176,42,58,.6)}}
+.stage::before{content:"";position:absolute;left:0;right:0;top:0;height:30px;z-index:3;pointer-events:none;background:linear-gradient(#8a1020,#8a1020) 0 0/100% 5px no-repeat,radial-gradient(ellipse 4px 14px at 20px 0,#8a1020 70%,transparent 72%) 0 0/57px 100%,radial-gradient(ellipse 3px 24px at 40px 0,#8a1020 70%,transparent 72%) 0 0/83px 100%}
+.stage::after{content:"";position:absolute;left:0;top:0;width:84px;height:84px;z-index:3;pointer-events:none;background:repeating-conic-gradient(from 0deg at 0 0,rgba(225,225,225,.4) 0 1deg,transparent 1deg 15deg),repeating-radial-gradient(circle at 0 0,transparent 0 10px,rgba(225,225,225,.3) 10px 11px);-webkit-mask:radial-gradient(circle at 0 0,#000 55%,transparent 72%);mask:radial-gradient(circle at 0 0,#000 55%,transparent 72%)}
+body.mid canvas{filter:saturate(.8)}
+body.high canvas{animation:gl .25s steps(2) infinite;filter:contrast(1.15) saturate(.7)}
+@keyframes gl{50%{transform:translate(2px,-1px);filter:drop-shadow(3px 0 rgba(255,0,60,.7)) drop-shadow(-3px 0 rgba(0,200,255,.5))}}
+#ht{color:var(--red);text-shadow:0 0 8px var(--red);animation:hbt 1s infinite}
+@keyframes hbt{50%{transform:scale(1.45)}}
+@media (prefers-reduced-motion:reduce){body.high canvas,.stage,#ht{animation:none}}
+.ov h1{color:#c8182b;text-shadow:0 2px 0 #000,0 6px 14px rgba(176,42,58,.7)}
+</style></head>
+<body><div id="app">
+<div class="zig"></div>
+<div class="hud"><span id="ht">♥</span><span id="clk">12:00 AM</span><div class="bar"><i id="fb"></i></div><span id="chm">Charms 0/3</span></div>
+<div class="stage"><canvas id="c"></canvas><div id="msg"></div>
+<div class="ov" id="ov"></div></div>
+<button id="hide" disabled>Hide in cabinet</button>
+<p class="hint">Drag on the game or use WASD to move. H hides.</p>
+</div>
+<script>
+const $=s=>document.querySelector(s),rnd=n=>Math.floor(Math.random()*n),cl=(v,a,b)=>Math.max(a,Math.min(b,v));
+const T=32,W=11,H=15,DUR=170,cv=$("#c"),x=cv.getContext("2d");cv.width=W*T;cv.height=H*T;
+const dk=document.createElement("canvas");dk.width=cv.width;dk.height=cv.height;const dx=dk.getContext("2d");
+let G,run=false,keys={},joy=null,last=0,AC;
+
+function tone(f,d,v){try{const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.setValueAtTime(v,AC.currentTime);g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.connect(g).connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
+function msg(t){const e=$("#msg");e.textContent=t;e.style.opacity=1;clearTimeout(msg.h);msg.h=setTimeout(()=>e.style.opacity=0,2400)}
+const STU=[{n:"Mika",g:"f",r:"Runner: moves faster",s:3.7,fr:1,lr:0,sh:"#f2efe6",bt:"#1f2f5c",hr:"#150c09",bg:"#8a2a2a"},{n:"Jun",g:"m",r:"Brave: fear builds slower",s:3.1,fr:.6,lr:0,sh:"#f2efe6",bt:"#2b2b33",hr:"#0e0a08",bg:"#2a6a52"},{n:"Bea",g:"f",r:"Lantern: sees farther",s:3.1,fr:1,lr:.9,sh:"#f2efe6",bt:"#1f2f5c",hr:"#3a1a10",bg:"#b8862f"}];let who=STU[0];
+function pickUI(){const e=$("#stu");if(!e)return;e.innerHTML=STU.map((s,i)=>`<button data-i="${i}" class="${s===who?"on":""}">${s.n}<small>${s.g==="f"?"Girl":"Boy"}. ${s.r}</small></button>`).join("");e.querySelectorAll("button").forEach(b=>b.onclick=()=>{who=STU[b.dataset.i];pickUI()})}
+function ov(h,p,b,sub){const e=$("#ov");e.style.display="flex";e.innerHTML=`<h1>${h}</h1>${sub?`<div class="sub">${sub}</div>`:""}${p}<p><button id="go">${b}</button></p>`;$("#go").onclick=start;pickUI()}
+
+function init(){
+ const g=Array.from({length:H},()=>Array(W).fill(1));
+ (function carve(cx,cy){g[cy][cx]=0;[[0,-2],[2,0],[0,2],[-2,0]].sort(()=>Math.random()-.5).forEach(([a,b])=>{const nx=cx+a,ny=cy+b;if(nx>0&&ny>0&&nx<W-1&&ny<H-1&&g[ny][nx]){g[cy+b/2][cx+a/2]=0;carve(nx,ny)}})})(1,1);
+ for(let i=0;i<16;i++){const a=1+rnd(W-2),b=1+rnd(H-2);if(g[b][a]&&a%2!=b%2)g[b][a]=0}
+ g[H-1][W-2]=0;
+ const all=[];g.forEach((r,j)=>r.forEach((v,i)=>{if(!v&&j<H-1)all.push([i,j])}));
+ const fl=all.filter(([a,b])=>Math.hypot(a-1,b-1)>4).sort(()=>Math.random()-.5);
+ const mi=Math.max(0,fl.findIndex(([a,b])=>Math.hypot(a-1,b-1)>8)),[ma,mb]=fl.splice(mi,1)[0];
+ const pick=()=>{const[a,b]=fl.pop();return{x:a+.5,y:b+.5}};
+ G={g,all,t:0,fear:15,c:0,hb:1,warned:0,bo:10,dark:0,flash:0,gt:6,gh:0,gx:0,gy:0,
+  p:{x:1.5,y:1.5,hid:null},m:{x:ma+.5,y:mb+.5,stun:2,t:0,n:null,w:null},
+  charms:[pick(),pick(),pick()],lamps:[pick(),pick(),pick(),{x:1.5,y:1.5}],
+  cab:[pick(),pick(),pick(),pick()].map(c=>({...c,used:0}))};
+}
+function blocked(px,py,r){return [[-r,-r],[r,-r],[-r,r],[r,r]].some(([a,b])=>{const i=Math.floor(px+a),j=Math.floor(py+b);return G.g[j]?.[i]!==0||(i==W-2&&j==H-1&&G.c<3)})}
+function mv(o,dx,dy,r){if(!blocked(o.x+dx,o.y,r))o.x+=dx;if(!blocked(o.x,o.y+dy,r))o.y+=dy}
+function bfs(sx,sy,tx,ty){const k=(a,b)=>a+","+b,q=[[sx,sy]],pv={[k(sx,sy)]:null};
+ while(q.length){const[a,b]=q.shift();if(a==tx&&b==ty)break;[[1,0],[-1,0],[0,1],[0,-1]].forEach(([i,j])=>{const n=k(a+i,b+j);if(G.g[b+j]?.[a+i]===0&&!(n in pv)){pv[n]=[a,b];q.push([a+i,b+j])}})}
+ let c=[tx,ty],s=k(tx,ty);if(!(s in pv))return null;
+ while(pv[s]&&(pv[s][0]!=sx||pv[s][1]!=sy)){c=pv[s];s=k(c[0],c[1])}return c}
+
+function upd(dt){
+ const{p,m}=G;G.t+=dt;G.flash-=dt;G.dark-=dt;G.bo-=dt;G.gh-=dt;if((G.gt-=dt)<=0){G.gt=7+rnd(9);G.gh=.22;G.gx=rnd(cv.width);G.gy=60+rnd(cv.height-100);tone(200,.2,.1)}if(G.bo<=0){G.bo=12+rnd(10);G.dark=1.3;msg(["Someone whispers your name.","Don’t answer it.","The lights died."][rnd(3)]);tone(120,.8,.12)}
+ let vx=(keys.ArrowRight||keys.d?1:0)-(keys.ArrowLeft||keys.a?1:0),vy=(keys.ArrowDown||keys.s?1:0)-(keys.ArrowUp||keys.w?1:0);
+ if(joy){vx=joy.x;vy=joy.y}
+ const l=Math.hypot(vx,vy);if(l>1){vx/=l;vy/=l}
+ if(p.hid)vx=vy=0;p.mv=Math.hypot(vx,vy)>.1;
+ mv(p,vx*who.s*dt,vy*who.s*dt,.28);
+ G.charms=G.charms.filter(c=>{if(Math.hypot(c.x-p.x,c.y-p.y)<.6){G.c++;G.fear=Math.max(0,G.fear-15);tone(660,.4,.15);msg(G.c<3?"Salt charm found.":"The red door is open. Run.");return false}return true});
+ const near=G.dark<=0&&G.lamps.some(q=>Math.hypot(q.x-p.x,q.y-p.y)<2.2),still=!vx&&!vy;
+ const d=Math.hypot(m.x-p.x,m.y-p.y),sees=!p.hid&&(d<6||G.fear>60);
+ m.stun-=dt;m.t-=dt;
+ if(m.t<=0){m.t=.25;let tx,ty;
+  if(sees){tx=p.x|0;ty=p.y|0}else{if(!m.w||Math.hypot(m.w[0]+.5-m.x,m.w[1]+.5-m.y)<.6)m.w=G.all[rnd(G.all.length)];[tx,ty]=m.w}
+  m.n=bfs(m.x|0,m.y|0,tx,ty)}
+ const mlit=G.lamps.some(q=>Math.hypot(q.x-m.x,q.y-m.y)<2.2);
+ if(m.n&&m.stun<=0){const s=(1.5+G.fear/100*1.6)*(mlit?.35:1)*dt,ax=m.n[0]+.5-m.x,ay=m.n[1]+.5-m.y,L=Math.hypot(ax,ay)||1;m.x+=ax/L*Math.min(s,L);m.y+=ay/L*Math.min(s,L)}
+ let f=near?-9-(still?6:0):.9;
+ if(p.hid){f=1.5;if(d<2&&m.stun<=0&&p.hid.used>=3){G.fear+=40;p.hid=null;m.stun=2;msg("It remembers that cabinet.");tone(90,.5,.3)}}
+ else if(d<5&&m.stun<=0)f+=(5-d)*5*who.fr;
+ if(!p.hid&&d<.7&&m.stun<=0){G.fear+=35;G.flash=.45;m.stun=3;tone(70,.6,.35);navigator.vibrate&&navigator.vibrate(200)}
+ G.fear=cl(G.fear+f*dt,0,100);
+ if(G.fear>70&&!G.warned){G.warned=1;msg("It smells your fear. Find a lamp.")}
+ if(G.fear<50)G.warned=0;
+ G.hb-=dt;if(G.hb<=0){tone(55,.14,.28);G.hb=1.15-G.fear/100*.75}
+ const ne=!!p.hid||G.cab.some(c=>Math.hypot(c.x-p.x,c.y-p.y)<1.1);
+ $("#hide").disabled=!ne;$("#hide").textContent=p.hid?"Come out":"Hide in cabinet";
+ const mi=Math.floor(G.t/DUR*360),h=Math.floor(mi/60);
+ $("#clk").textContent=`${h||12}:${String(mi%60).padStart(2,"0")} AM`;
+ $("#fb").style.width=G.fear+"%";$("#ht").style.animationDuration=(1.15-G.fear/100*.75)+"s";$("#chm").textContent=`Charms ${G.c}/3`;
+ document.body.className=G.fear>70?"high":G.fear>30?"mid":"";
+ if(p.y>H-1+.3)return fin(1);
+ if(G.fear>=100)return fin(0,"Consumed","Your fear overflowed and the Fear Eater found you.");
+ if(G.t>=DUR)fin(0,"The Endless Night","Dawn never came. The house keeps you.");
+}
+function fin(win,t,s){run=false;document.body.className="";
+ if(win)ov("First Light","<p>You slipped through the red door as the sun rose. The house let go.</p>","Play again","Ikaw ay nakaligtas");
+ else ov(t,`<p>${s}</p><p>Hint: lamps calm you. Don’t hide in the same cabinet three times.</p>`,"Try again","Ikaw ay natalo")}
+
+function portrait(X,Y){const p=G.p,ax=cl((p.x*T-X-16)/16,-1,1),ay=cl((p.y*T-Y-16)/16,-1,1);x.fillStyle="#6b4a22";x.fillRect(X+5,Y+5,22,22);x.fillStyle="#1a1210";x.fillRect(X+8,Y+8,16,16);x.fillStyle="#d8c9a8";x.beginPath();x.ellipse(X+16,Y+17,5,7,0,0,7);x.fill();x.fillStyle=G.fear>60?"#d01020":"#000";[-2.5,2.5].forEach(o=>{x.beginPath();x.arc(X+16+o+ax*1.3,Y+15+ay*1.3,1.5,0,7);x.fill()})}
+function draw(){
+ const{p,m}=G;x.save();
+ if(G.fear>70)x.translate(rnd(5)-2,rnd(5)-2);
+ for(let j=0;j<H;j++)for(let i=0;i<W;i++){
+  const w=G.g[j][i]===1,X=i*T,Y=j*T;
+  x.fillStyle=w?"#3a2820":(i+j)%2?"#1c1319":"#21161d";x.fillRect(X,Y,T,T);
+  if(!w){x.fillStyle="rgba(0,0,0,.4)";x.fillRect(X,Y+T-2,T,2);x.fillRect(X+(j%2?9:21),Y,1,T);if((i*5+j*3)%11==0){x.fillStyle="rgba(110,8,18,.6)";x.beginPath();x.ellipse(X+14,Y+16,10,5,.4,0,7);x.fill();x.beginPath();x.arc(X+24,Y+8,2,0,7);x.fill()}}
+  if(w){x.fillStyle="#4a3320";x.fillRect(X,Y,T,3);x.fillStyle="rgba(0,0,0,.35)";x.fillRect(X,Y+T/2,T,2);x.fillRect(X+T/2,Y,2,T/2);if((i*7+j*13)%8==0){x.strokeStyle="rgba(150,15,25,.7)";x.lineWidth=1.5;for(let k=0;k<3;k++){x.beginPath();x.moveTo(X+8+k*5,Y+5);x.lineTo(X+11+k*5,Y+T-6);x.stroke()}}else if((i*7+j*13)%8==3){portrait(X,Y)}}}
+ const ex=(W-2)*T,ey=(H-1)*T;x.fillStyle=G.c>=3?"#b02a3a":"#5a1620";x.fillRect(ex+3,ey,T-6,T);x.fillStyle="#e0a948";x.fillRect(ex+T-10,ey+T/2,3,3);
+ G.cab.forEach(c=>{x.fillStyle="#5a3a22";x.fillRect(c.x*T-9,c.y*T-11,18,22);x.fillStyle="#7a5a2f";x.fillRect(c.x*T-9,c.y*T-11,18,3);x.fillStyle="#e0a948";x.fillRect(c.x*T+2,c.y*T,3,3)});
+ G.lamps.forEach(q=>{x.fillStyle="#3a2a1a";x.fillRect(q.x*T-4,q.y*T,8,6);x.fillStyle="#e0a948";x.beginPath();x.ellipse(q.x*T,q.y*T-3,3,5+Math.sin(G.t*18+q.x)*1.5,0,0,7);x.fill()});
+ const w2=Math.sin(G.t*6)*2,MX=m.x*T,MY=m.y*T;x.fillStyle="#030104";x.beginPath();x.ellipse(MX,MY-2+w2/2,9,20,0,0,7);x.fill();x.strokeStyle="#030104";x.lineWidth=3;[-1,1].forEach(s=>{x.beginPath();x.moveTo(MX+s*7,MY-8);x.quadraticCurveTo(MX+s*(18+w2*2),MY+4,MX+s*(15+w2),MY+22);x.stroke()});
+ if(!p.hid){const b=p.mv?Math.sin(G.t*14)*1.6:0,f=who.g==="f";x.save();x.translate(p.x*T,p.y*T-6);x.scale(1.5,1.5);x.fillStyle="rgba(0,0,0,.5)";x.beginPath();x.ellipse(0,17,9,3,0,0,7);x.fill();x.fillStyle=who.bg;x.fillRect(-8,-4,5,12);if(f){x.fillStyle=who.hr;x.fillRect(-6,-12,12,19)}x.fillStyle=f?"#e8c9a0":who.bt;x.fillRect(-4,8,3,7+b);x.fillRect(1,8,3,7-b);x.fillStyle="#222";x.fillRect(-5,15+b,5,2);x.fillRect(1,15-b,5,2);x.fillStyle=who.sh;x.fillRect(-6,-5,12,10);x.fillStyle=who.bt;if(f){x.beginPath();x.moveTo(-6,3);x.lineTo(6,3);x.lineTo(8,11);x.lineTo(-8,11);x.fill();x.fillStyle="#c0262e";x.fillRect(-2,-4,4,3)}else{x.fillRect(-6,3,12,6);x.fillStyle="#c0262e";x.fillRect(-1,-4,2,7)}x.fillStyle="#e8c9a0";x.beginPath();x.arc(0,-9,5.5,0,7);x.fill();x.fillStyle=who.hr;x.beginPath();x.arc(0,-10.5,5.8,3.1,6.3);x.fill();if(f){x.fillRect(-6,-11,2,13);x.fillRect(4,-11,2,13)}x.fillStyle="#1a1010";x.fillRect(-3,-9,1.5,2);x.fillRect(1.5,-9,1.5,2);x.restore()}
+ dx.globalCompositeOperation="source-over";dx.fillStyle="rgba(5,2,7,.97)";dx.fillRect(0,0,dk.width,dk.height);dx.globalCompositeOperation="destination-out";
+ const hole=(a,b,r)=>{const g=dx.createRadialGradient(a,b,r*.15,a,b,r);g.addColorStop(0,"#000");g.addColorStop(1,"rgba(0,0,0,0)");dx.fillStyle=g;dx.beginPath();dx.arc(a,b,r,0,7);dx.fill()};
+ hole(p.x*T,p.y*T,(G.dark>0?.9:p.hid?1:3.2+who.lr-1.5*G.fear/100)*T);
+ if(G.dark<=0)G.lamps.forEach(q=>hole(q.x*T,q.y*T,2.4*T));
+ if(G.c>=3)hole((W-1.5)*T,(H-.5)*T,2*T);
+ x.drawImage(dk,0,0);
+ x.globalCompositeOperation="screen";const warm=(a,b,r,al)=>{const g=x.createRadialGradient(a,b,0,a,b,r);g.addColorStop(0,`rgba(224,150,50,${al})`);g.addColorStop(1,"rgba(224,150,50,0)");x.fillStyle=g;x.fillRect(a-r,b-r,2*r,2*r)};if(G.dark<=0)G.lamps.forEach(q=>warm(q.x*T,q.y*T,2.2*T,.28+Math.sin(G.t*20+q.x)*.05));warm(p.x*T,p.y*T,2*T,.12);x.globalCompositeOperation="source-over";
+ for(let k=0;k<5;k++){const a=(k*97+G.t*(5+k*3))%(cv.width+160)-80,b=(k*131)%cv.height+Math.sin(G.t*.4+k)*30,g=x.createRadialGradient(a,b,0,a,b,80);g.addColorStop(0,"rgba(150,160,190,.09)");g.addColorStop(1,"rgba(150,160,190,0)");x.fillStyle=g;x.fillRect(a-80,b-80,160,160)}
+ G.charms.forEach(c=>{x.fillStyle=`rgba(255,255,255,${.5+.5*Math.sin(G.t*5)})`;x.beginPath();x.arc(c.x*T,c.y*T,3,0,7);x.fill()});
+ const ec=G.fear>60?"#ff3b4a":"#e8c14a";x.fillStyle=ec;x.shadowColor=ec;x.shadowBlur=10;
+ [-4,4].forEach(o=>{x.beginPath();x.ellipse(m.x*T+o,m.y*T-12+w2/2,2.5,1.6,0,0,7);x.fill()});x.shadowBlur=0;if(Math.hypot(m.x-p.x,m.y-p.y)<6){x.strokeStyle="#e8e0d0";x.lineWidth=1.5;x.beginPath();for(let k=0;k<=6;k++)x.lineTo(m.x*T-9+k*3,m.y*T-3+(k%2?4:0)+w2/2);x.stroke()}
+ if(joy){x.strokeStyle="rgba(227,216,192,.35)";x.lineWidth=2;x.beginPath();x.arc(joy.ox,joy.oy,34,0,7);x.stroke();x.fillStyle="rgba(227,216,192,.3)";x.beginPath();x.arc(joy.ox+joy.x*34,joy.oy+joy.y*34,14,0,7);x.fill()}
+ x.restore()}
+
+function scare(){const f=G.flash;if(f>0){x.fillStyle=`rgba(160,0,15,${f*1.6})`;x.fillRect(0,0,cv.width,cv.height);const s=1+f*2,cx=cv.width/2,cy=cv.height/2;x.fillStyle="#000";x.beginPath();x.ellipse(cx,cy,50*s,70*s,0,0,7);x.fill();x.fillStyle="#fff";[-1,1].forEach(o=>{x.beginPath();x.ellipse(cx+o*22*s,cy-18*s,9*s,5*s,0,0,7);x.fill()});x.beginPath();x.moveTo(cx-30*s,cy+20*s);for(let k=0;k<=8;k++)x.lineTo(cx-30*s+k*7.5*s,cy+(k%2?36:18)*s);x.fill()}
+ if(G.fear>50){const g=x.createRadialGradient(cv.width/2,cv.height/2,cv.height*.3,cv.width/2,cv.height/2,cv.height*.7);g.addColorStop(0,"rgba(120,0,10,0)");g.addColorStop(1,`rgba(120,0,10,${(G.fear-50)/90})`);x.fillStyle=g;x.fillRect(0,0,cv.width,cv.height)}
+ if(G.gh>0){x.fillStyle="rgba(230,230,240,.35)";x.beginPath();x.ellipse(G.gx,G.gy,7,24,0,0,7);x.fill();x.beginPath();x.arc(G.gx,G.gy-28,7,0,7);x.fill()}
+ if(G.fear>30){x.fillStyle="rgba(255,255,255,.05)";for(let k=0;k<30;k++)x.fillRect(rnd(cv.width),rnd(cv.height),2,2)}}
+function loop(ts){if(!run)return;const dt=Math.min(.05,(ts-last)/1000||0);last=ts;upd(dt);if(run){draw();scare()}requestAnimationFrame(loop)}
+function start(){AC=AC||new(window.AudioContext||window.webkitAudioContext)();init();$("#ov").style.display="none";run=true;last=performance.now();msg(who.n+" must find 3 salt charms.");requestAnimationFrame(loop)}
+function hide(){if(!run)return;const{p}=G;if(p.hid){p.hid=null;return}const c=G.cab.find(c=>Math.hypot(c.x-p.x,c.y-p.y)<1.1);if(c){c.used++;p.hid=c;p.x=c.x;p.y=c.y}}
+$("#hide").onclick=hide;
+addEventListener("keydown",e=>{keys[e.key.length>1?e.key:e.key.toLowerCase()]=1;if(e.key==="h"||e.key===" ")hide();if(e.key.startsWith("Arrow"))e.preventDefault()});
+addEventListener("keyup",e=>{keys[e.key.length>1?e.key:e.key.toLowerCase()]=0});
+const pt=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*cv.width/r.width,(e.clientY-r.top)*cv.height/r.height]};
+cv.addEventListener("pointerdown",e=>{const[a,b]=pt(e);joy={ox:a,oy:b,x:0,y:0};cv.setPointerCapture(e.pointerId)});
+cv.addEventListener("pointermove",e=>{if(!joy)return;const[a,b]=pt(e);let u=(a-joy.ox)/34,v=(b-joy.oy)/34;const l=Math.hypot(u,v);if(l>1){u/=l;v/=l}joy.x=u;joy.y=v});
+["pointerup","pointercancel"].forEach(n=>cv.addEventListener(n,()=>joy=null));
+ov("The House That Feeds on Fear","<p>Midnight. You and your classmates came to study at an ancestral house. Now you are alone, and the Fear Eater is hunting you.</p><p>Find 3 salt charms and escape through the red door before 6:00 AM.</p><p>Lamps calm you. The Fear Eater grows faster as you panic. Cabinets hide you, but it remembers.</p><div class=\"stu\" id=\"stu\"></div>","Begin the night","Ang Bahay na Kumakain ng Takot");
+</script></body></html>
